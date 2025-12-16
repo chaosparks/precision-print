@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { type ImageConfig, Orientation, type PaperConfig } from '../types';
-import { Upload, Printer, RotateCw, ZoomIn, ZoomOut, Grid3X3, Loader2, Sparkles, AlertCircle } from 'lucide-react';
-import { generateTestImage } from '../services/geminiService';
+import { Upload, Printer, RotateCw, ZoomIn, ZoomOut, Grid3X3 } from 'lucide-react';
 
 interface ControlsProps {
   imageConfig: ImageConfig;
@@ -19,8 +18,6 @@ export const Controls: React.FC<ControlsProps> = ({
   onPrint,
 }) => {
   const [imageUrlInput, setImageUrlInput] = useState('');
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [geminiError, setGeminiError] = useState<string | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -38,23 +35,6 @@ export const Controls: React.FC<ControlsProps> = ({
   const handleUrlSubmit = () => {
     if (imageUrlInput.trim()) {
       onUpdateImageConfig({ url: imageUrlInput, x: 0, y: 0, scale: 1 });
-    }
-  };
-
-  const handleGenerateImage = async () => {
-    setIsGenerating(true);
-    setGeminiError(null);
-    try {
-      const generatedUrl = await generateTestImage("A beautiful, high-contrast geometric abstract art pattern, suitable for printing test. Vibrant colors.");
-      if (generatedUrl) {
-        onUpdateImageConfig({ url: generatedUrl, x: 0, y: 0, scale: 1 });
-      } else {
-        setGeminiError("Failed to generate image. Check API key.");
-      }
-    } catch (err) {
-       setGeminiError("Error connecting to AI service.");
-    } finally {
-      setIsGenerating(false);
     }
   };
 
@@ -94,28 +74,12 @@ export const Controls: React.FC<ControlsProps> = ({
                 onChange={(e) => setImageUrlInput(e.target.value)}
               />
               <button
+                type="button"
                 onClick={handleUrlSubmit}
                 className="px-3 py-2 text-sm font-medium text-white bg-gray-800 rounded-md hover:bg-gray-700"
               >
                 Go
               </button>
-            </div>
-            
-            {/* Gemini Generation */}
-            <div className="pt-2 border-t border-gray-100">
-               <button
-                onClick={handleGenerateImage}
-                disabled={isGenerating}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-purple-700 bg-purple-50 hover:bg-purple-100 rounded-md transition-colors"
-               >
-                 {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                 Generate Test Image (AI)
-               </button>
-               {geminiError && (
-                 <p className="text-xs text-red-500 mt-2 flex items-center gap-1">
-                   <AlertCircle className="w-3 h-3"/> {geminiError}
-                 </p>
-               )}
             </div>
           </div>
         </section>
