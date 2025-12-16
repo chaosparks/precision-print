@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { createRoot } from 'react-dom/client';
 import { PaperCanvas } from './components/PaperCanvas';
 import { Controls } from './components/Controls';
 import { type ImageConfig, Orientation, type PaperConfig } from './types';
-import { A4_HEIGHT_MM, A4_WIDTH_MM, DEFAULT_IMAGE_URL } from './constants';
+import { A4_HEIGHT_MM, A4_WIDTH_MM } from './constants';
 
 const App: React.FC = () => {
   const [imageConfig, setImageConfig] = useState<ImageConfig>({

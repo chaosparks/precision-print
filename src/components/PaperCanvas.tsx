@@ -22,9 +22,6 @@ export const PaperCanvas: React.FC<PaperCanvasProps> = ({
   const widthMM = isPortrait ? A4_WIDTH_MM : A4_HEIGHT_MM;
   const heightMM = isPortrait ? A4_HEIGHT_MM : A4_WIDTH_MM;
 
-  const widthPx = widthMM * MM_TO_PX;
-  const heightPx = heightMM * MM_TO_PX;
-
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
