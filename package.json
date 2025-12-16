@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:css": "npx @tailwindcss/cli -i ./src/input.css -o ./src/index.css --build",
+    "watch:css": "npx @tailwindcss/cli -i ./src/input.css -o ./src/index.css --watch"
   },
   "dependencies": {
     "@google/genai": "^1.33.0",
@@ -17,6 +19,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@tailwindcss/cli": "^4.1.18",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
