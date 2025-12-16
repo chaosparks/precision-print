@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrecisionPrint A4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom Print Styles to override Tailwind resets and ensure exact A4 sizing */
+      @media print {
+        @page {
+          margin: 0;
+          size: auto; /* Allow content to define page size, or dynamic handling in JS */
+        }
+        body {
+          background: white;
+        }
+        /* Hide everything by default when printing */
+        body * {
+          visibility: hidden;
+        }
+        
+        /* Reset the scaling transform on the wrapper to ensure A4 is printed at 100% scale */
+        #preview-wrapper {
+          transform: none !important;
+          position: absolute;
+          top: 0;
+          left: 0;
+          margin: 0;
+          padding: 0;
+          width: 100%;
+          height: 100%;
+          display: block !important;
+          visibility: visible; /* Ensure wrapper itself is visible */
+        }
+
+        /* Only show the print container and its children */
+        #print-container, #print-container * {
+          visibility: visible;
+        }
+
+        #print-container {
+          position: absolute; /* Changed from fixed to absolute for better flow control inside wrapper */
+          top: 0;
+          left: 0;
+          width: 210mm; /* A4 Width */
+          height: 297mm; /* A4 Height */
+          overflow: hidden;
+          margin: 0;
+          padding: 0;
+          border: none;
+          box-shadow: none;
+          transform: none !important; /* Remove any screen scaling */
+        }
+        
+        /* Landscape specific print overrides */
+        #print-container.landscape-print {
+           width: 297mm;
+           height: 210mm;
+        }
+      }
+      
+      /* Grid Pattern for the Editor */
+      .bg-grid-pattern {
+        background-size: 10mm 10mm;
+        background-image:
+          linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+      }
+      .bg-grid-pattern-strong {
+         background-size: 50mm 50mm;
+         background-image:
+          linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+      }
+    </style>
+
+<link rel="stylesheet" href="/src/index.css">
+</head>
+  <body class="bg-gray-100 text-slate-800 antialiased h-screen overflow-hidden">
+    <div id="root" class="h-full"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
+</html>
